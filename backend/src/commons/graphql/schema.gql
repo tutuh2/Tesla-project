@@ -1,0 +1,181 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Model {
+  id: String!
+  name: String!
+  model: String!
+  detailedModel: String!
+  range: Int!
+  speed: Int!
+  zeroHundred: Float!
+  price: Int!
+  seat: Int!
+  color: String!
+  interior: String!
+  wheelType: String!
+  autoPilotSystem: Boolean!
+  wheelDrive: String!
+}
+
+type Cart {
+  id: String!
+  product: [Product!]!
+}
+
+type Product {
+  id: String!
+  name: String!
+  price: Int!
+  description: String!
+  date: DateTime!
+  productTag: [ProductTag!]!
+  cart: [Cart!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProductTag {
+  id: String!
+  name: String!
+  product: [Product!]!
+}
+
+type User {
+  id: String!
+  email: String!
+  name: String!
+  age: Int!
+  point: Int!
+  cart: Cart!
+}
+
+type PointTransaction {
+  id: String!
+  impUid: String!
+  amount: Int!
+  cancelledAt: DateTime!
+  status: POINT_TRANSACTION_STATUS_ENUM!
+  user: User!
+  createdAt: DateTime!
+}
+
+enum POINT_TRANSACTION_STATUS_ENUM {
+  PAYMENT
+  CANCEL
+}
+
+type ProductImages {
+  id: String!
+  imageUrl: String!
+  product: Product!
+}
+
+type Query {
+  fetchProducts(keyword: String!): [Product!]!
+  fetchProductsDeleted: [Product!]!
+  fetchProduct(productId: String!): Product!
+  fetchModels: [Model!]!
+  fetchModelsDeleted: [Model!]!
+  fetchModel(modelId: String!): Model!
+  fetchUsers: [User!]!
+  fetchUser(email: String!): User!
+  fetchTest: String!
+  fetchProductImages: [ProductImages!]!
+  fetchCart(cartId: String!): Cart!
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
+  logout: String!
+  restoreAccessToken: String!
+  uploadFile(files: [Upload!]!): [String!]!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(productId: String!, updateProductInput: UpdateProductInput!): Product!
+  deleteProduct(productId: String!): Boolean!
+  restoreModel(modelId: String!): Boolean!
+  createModel(createModelInput: CreateModelInput!): Model!
+  updateModel(modelId: String!, updateModelInput: UpdateModelInput!): Model!
+  deleteModel(productId: String!): Boolean!
+  createUser(email: String!, password: String!, name: String!, age: Float!): User!
+  deleteUser(userId: String!): Boolean!
+  createProductImages(createProductImagesInput: CreateProductImagesInput!): ProductImages!
+  updateProductImages(productImagesId: String!, updateProductImagesInput: UpdateProductImagesInput!): ProductImages!
+  deleteProductImages(productImagesId: String!): Boolean!
+  add1(addProductImages: AddProductImagesInput!): [ProductImages!]!
+  add2(addProductImages: AddProductImagesInput!): [ProductImages!]!
+  createPointTransaction(impUid: String!, amount: Float!): PointTransaction!
+  cancelPointTransaction(impUid: String!): Boolean!
+  addProductToCart(cartId: String!, productId: String!): Cart!
+  deleteProudctfromCart(cartId: String!, productId: String!): Cart!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateProductInput {
+  name: String!
+  description: String!
+  price: Int!
+  date: DateTime!
+  productTag: [String!]!
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  price: Int
+  date: DateTime
+  productTag: [String!]
+}
+
+input CreateModelInput {
+  name: String!
+  model: String!
+  detailedModel: String!
+  range: Int!
+  speed: Int!
+  zeroHundred: Float!
+  price: Int!
+  seat: Int!
+  color: String!
+  interior: String!
+  wheelType: String!
+  autoPilotSystem: Boolean!
+  wheelDrive: String!
+}
+
+input UpdateModelInput {
+  name: String
+  model: String
+  detailedModel: String
+  range: Int
+  speed: Int
+  zeroHundred: Float
+  price: Int
+  seat: Int
+  color: String
+  interior: String
+  wheelType: String
+  autoPilotSystem: Boolean
+  wheelDrive: String
+}
+
+input CreateProductImagesInput {
+  productId: String!
+  imageUrl: String!
+}
+
+input UpdateProductImagesInput {
+  productId: String
+  imageUrl: String
+}
+
+input AddProductImagesInput {
+  productId: String!
+  imageUrl: [String!]!
+}
