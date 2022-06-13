@@ -6,8 +6,6 @@
 
 [https://backendapi.tutuh2.shop/graphql](https://backendapi.tutuh2.shop/graphql)
 
-배포는 아직 완료하지 못해서 일단 수업시간에 한걸로 올려져있습니다.
-
 ## 기술 스택
 
 - Javascript
