@@ -5,7 +5,6 @@ import { Product } from './entities/product.entity';
 import { ProductResolver } from './product.resolver';
 import { ProductService } from './product.service';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
-import { Cart } from '../cart/entities/cart.entity';
 
 @Module({
     imports: [

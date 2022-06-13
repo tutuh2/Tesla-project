@@ -19,11 +19,6 @@ type Model {
   wheelDrive: String!
 }
 
-type Cart {
-  id: String!
-  product: [Product!]!
-}
-
 type Product {
   id: String!
   name: String!
@@ -31,7 +26,6 @@ type Product {
   description: String!
   date: DateTime!
   productTag: [ProductTag!]!
-  cart: [Cart!]!
 }
 
 """
@@ -51,7 +45,6 @@ type User {
   name: String!
   age: Int!
   point: Int!
-  cart: Cart!
 }
 
 type PointTransaction {
@@ -75,7 +68,16 @@ type ProductImages {
   product: Product!
 }
 
+type Cart {
+  id: String!
+  productCount: Int!
+  user: User!
+  product: Product!
+}
+
 type Query {
+  fetchCarts: [Cart!]!
+  fetchCart(productId: String!): Cart!
   fetchProducts(keyword: String!): [Product!]!
   fetchProductsDeleted: [Product!]!
   fetchProduct(productId: String!): Product!
@@ -86,13 +88,14 @@ type Query {
   fetchUser(email: String!): User!
   fetchTest: String!
   fetchProductImages: [ProductImages!]!
-  fetchCart(cartId: String!): Cart!
 }
 
 type Mutation {
   login(email: String!, password: String!): String!
   logout: String!
   restoreAccessToken: String!
+  createCart(productId: String!): Cart!
+  deleteCart(productId: String!): Boolean!
   uploadFile(files: [Upload!]!): [String!]!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(productId: String!, updateProductInput: UpdateProductInput!): Product!
@@ -110,8 +113,6 @@ type Mutation {
   add2(addProductImages: AddProductImagesInput!): [ProductImages!]!
   createPointTransaction(impUid: String!, amount: Float!): PointTransaction!
   cancelPointTransaction(impUid: String!): Boolean!
-  addProductToCart(cartId: String!, productId: String!): Cart!
-  deleteProudctfromCart(cartId: String!, productId: String!): Cart!
 }
 
 """The `Upload` scalar type represents a file upload."""

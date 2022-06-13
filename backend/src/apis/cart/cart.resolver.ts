@@ -1,4 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
+import { CurrentUser, ICurrentUser } from 'src/commons/auth/gql-user.param';
 import { CartService } from './cart.service';
 import { Cart } from './entities/cart.entity';
 
@@ -8,26 +11,42 @@ export class CartResolver {
         private readonly cartService: CartService, //
     ) {}
 
+    @UseGuards(GqlAuthAccessGuard)
+    @Query(() => [Cart])
+    fetchCarts(@CurrentUser() currentUser: ICurrentUser) {
+        return this.cartService.findAll({ currentUser });
+    }
+
+    @UseGuards(GqlAuthAccessGuard)
     @Query(() => Cart)
-    async fetchCart(@Args('cartId') cartId: string) {
-        const cart = await this.cartService.findAll({ cartId });
-        console.log(cart);
-        return cart;
+    fetchCart(
+        @Args('productId') productId: string,
+        @CurrentUser() currentUser: ICurrentUser,
+    ) {
+        return this.cartService.findOne({ currentUser, productId });
     }
 
+    @UseGuards(GqlAuthAccessGuard)
     @Mutation(() => Cart)
-    addProductToCart(
-        @Args('cartId') cartId: string,
+    async createCart(
         @Args('productId') productId: string,
+        @CurrentUser() currentUser: ICurrentUser,
     ) {
-        return this.cartService.addCart({ cartId, productId });
+        return this.cartService.create({
+            currentUser,
+            productId,
+        });
     }
 
-    @Mutation(() => Cart)
-    deleteProudctfromCart(
-        @Args('cartId') cartId: string,
+    @UseGuards(GqlAuthAccessGuard)
+    @Mutation(() => Boolean)
+    async deleteCart(
         @Args('productId') productId: string,
+        @CurrentUser() currentUser: ICurrentUser,
     ) {
-        return this.cartService.deleteCart({ cartId, productId });
+        return this.cartService.delete({
+            currentUser,
+            productId,
+        });
     }
 }

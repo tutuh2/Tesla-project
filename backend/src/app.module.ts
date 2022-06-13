@@ -16,19 +16,19 @@ import { FileModule } from './apis/file/file.module';
 
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
-import { CartModule } from './apis/cart/cart.module';
 import { BookingModule } from './apis/booking/booking.module';
+import { CartModule } from './apis/cart/cart.module';
 
 @Module({
     imports: [
         AuthModule,
+        CartModule,
         FileModule,
         ProductModule,
         ModelModule,
         UserModule,
         ProductImagesModule,
         PointTransactionModule,
-        CartModule,
         BookingModule,
         ConfigModule.forRoot({
             isGlobal: true,

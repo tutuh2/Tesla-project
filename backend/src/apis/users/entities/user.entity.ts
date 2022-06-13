@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Cart } from 'src/apis/cart/entities/cart.entity';
 import {
     Column,
     DeleteDateColumn,
@@ -38,9 +37,4 @@ export class User {
     @Column({ default: 0 })
     @Field(() => Int)
     point: number;
-
-    @JoinColumn()
-    @OneToOne(() => Cart)
-    @Field(() => Cart)
-    cart: Cart;
 }
